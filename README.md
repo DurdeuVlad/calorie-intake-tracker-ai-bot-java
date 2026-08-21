@@ -3,6 +3,18 @@
 > 🥗 **Zero-friction, privacy-first AI nutrition & calorie tracker for Telegram and Mattermost.**  
 > *Log meals naturally via text, voice notes, photos, or nutrition labels. Powered by Java 21, Spring Boot 3.4, PostgreSQL, OpenAI, Open Food Facts, SearxNG, and Browserless.*
 
+## Java Variant
+
+This repository is the Java variant of the Food Journal AI Bot. It is a standalone,
+publishable sister repository containing the working Java 21/Spring Boot implementation
+and its Maven, Docker, database migration, and test assets.
+
+The companion `calorie-intake-tracker-ai-bot` repository is the primary project and
+contains the Python successor. The two variants share the same product goal and
+database-oriented architecture, but this repository intentionally excludes the
+Python source tree and Python CI workflow so that the Java implementation can be
+reviewed and presented independently.
+
 [![Java 21](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
 [![Spring Boot 3.4](https://img.shields.io/badge/Spring%20Boot-3.4-green.svg)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-blue.svg)](https://www.postgresql.org/)
@@ -138,4 +150,3 @@ Type natural language meals directly into the CLI console. Use `:help`, `:trace 
 ## License
 
 [MIT License](LICENSE).
-

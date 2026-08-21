@@ -17,7 +17,7 @@ This guide outlines how to deploy **Food Journal Messaging Bot** on a self-hoste
 
 ### 1. Create Coolify Project & Application
 - Select **New Resource** -> **Application** -> **GitHub Repository**.
-- Select the `calorie-intake-tracker-ai-bot` repository and the `master` branch.
+- Select the Java sister repository (`calorie-intake-tracker-ai-bot-java`) and the `master` branch.
 - Choose **Dockerfile** as the build mechanism.
 
 ### 2. Configure Environment Variables
@@ -85,4 +85,3 @@ In the repository's GitHub webhook settings, set this URL, content type `applica
 
 - **Stateless App Container**: The application container is non-root and read-only with a temporary `/tmp` mount. All persistent state lives in PostgreSQL.
 - **Upgrades**: Pushing updates to `master` triggers zero-downtime redeployments in Coolify. Flyway executes new migrations automatically upon startup.
-
