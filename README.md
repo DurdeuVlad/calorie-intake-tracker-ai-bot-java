@@ -1,7 +1,7 @@
 # Food Journal AI Bot
 
 > 🥗 **Zero-friction, privacy-first AI nutrition & calorie tracker for Telegram and Mattermost.**  
-> *Log meals naturally via text, voice notes, photos, or nutrition labels. Powered by Java 21, Spring Boot 3.4, PostgreSQL, OpenAI, Open Food Facts, SearxNG, and Browserless.*
+> *Log meals naturally via text, voice notes, photos, or nutrition labels. Powered by Java 21, Spring Boot 3.5, PostgreSQL, OpenAI, Open Food Facts, SearxNG, and Browserless.*
 
 ## Java Variant
 
@@ -16,7 +16,7 @@ Python source tree and Python CI workflow so that the Java implementation can be
 reviewed and presented independently.
 
 [![Java 21](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
-[![Spring Boot 3.4](https://img.shields.io/badge/Spring%20Boot-3.4-green.svg)](https://spring.io/projects/spring-boot)
+[![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5-green.svg)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-blue.svg)](https://www.postgresql.org/)
 [![Docker Compose](https://img.shields.io/badge/Docker%20Compose-Ready-blue.svg)](compose.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -65,7 +65,7 @@ reviewed and presented independently.
 
 ## Architecture Stack
 
-- **Core**: Java 21, Spring Boot 3.4, PostgreSQL 16+, Flyway Migrations (V1–V17)
+- **Core**: Java 21, Spring Boot 3.5, PostgreSQL 16+, Flyway Migrations (V1–V17)
 - **AI & Vision**: OpenAI Chat Completions (`gpt-5.6-luna`), OpenAI Audio (`gpt-4o-mini-transcribe`), Vision/Media Extraction
 - **Integrations**: Open Food Facts API, SearxNG (JSON search API), Browserless (headless chrome fetching)
 - **Frontends**: Telegram Bot Webhook API, Mattermost Client WebSocket Engine, Interactive CLI Terminal
@@ -135,6 +135,8 @@ Type natural language meals directly into the CLI console. Use `:help`, `:trace 
 - [Cutover Runbook](docs/cutover-runbook.md): Launch and migration instructions.
 - [n8n Migration Assessment](docs/n8n-migration.md): Technical analysis and findings from legacy low-code migration.
 - [Issue Backlog](docs/issue-backlog.md): Milestone progress and roadmap features.
+- [Release Guide](docs/releasing.md): Versioning, release evidence, and rollback expectations.
+- [OSS Readiness](docs/oss-readiness.md): Parity audit, issue register, and recommended repository settings.
 
 ---
 

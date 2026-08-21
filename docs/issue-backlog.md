@@ -4,7 +4,7 @@
 
 ## Completed Milestones (Production Release)
 
-1. [x] **Bootstrap & Governance**: Docker architecture, Spring Boot 3.4 setup, security scanning, and configuration template.
+1. [x] **Bootstrap & Governance**: Docker architecture, Spring Boot 3.5 setup, security scanning, and configuration template.
 2. [x] **Database Schema & Migrations**: PostgreSQL 16 schema evolution via Flyway migrations (`V1`–`V17`).
 3. [x] **Multi-Frontend Ingestion**: Telegram HTTPS Webhook API with secret header verification and Mattermost WebSocket client over Tailscale.
 4. [x] **User Isolation & Idempotency**: Atomic update claiming (`processed_updates`), strict user-level authorization, and outbox messaging worker (`messaging_outbound_messages`).
@@ -22,4 +22,3 @@
 1. [ ] **Multi-Language Expansion**: Add native localization support for additional languages beyond English and Romanian.
 2. [ ] **Micronutrient Tracking**: Expand macro tracking to include detailed micronutrients (sodium, fiber, sugar, saturated fats).
 3. [ ] **Custom Export Tools**: Export user journal records to CSV, JSON, or HealthKit/Google Fit formats.
-
