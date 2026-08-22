@@ -35,6 +35,7 @@ food-journal:
   telegram-token: ${TELEGRAM_BOT_TOKEN}
   webhook-secret: ${TELEGRAM_WEBHOOK_SECRET}
   allowed-telegram-user-ids: ${ALLOWED_TELEGRAM_USER_IDS:}
+  admin-telegram-user-ids: ${ADMIN_TELEGRAM_USER_IDS:}
   default-timezone: ${DEFAULT_TIMEZONE:Europe/Bucharest}
   openai-api-key: ${OPENAI_API_KEY:}
   openai-model: ${OPENAI_MODEL:gpt-5.6-luna}

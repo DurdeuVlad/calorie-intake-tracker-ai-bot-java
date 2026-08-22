@@ -31,6 +31,8 @@ public class MessagingInboxWorker {
   private final OpenAiVoiceTranscriber voice;
   private final MessagingDailyStatusService status;
   private final ConversationMemoryService memory;
+  private final TelegramAccessService telegramAccess;
+  private final TelegramAdminService telegramAdmin;
 
   public MessagingInboxWorker(
       MessagingInboxRepository inbox,
@@ -46,7 +48,9 @@ public class MessagingInboxWorker {
       FoodMediaExtractor media,
       OpenAiVoiceTranscriber voice,
       MessagingDailyStatusService status,
-      ConversationMemoryService memory) {
+      ConversationMemoryService memory,
+      TelegramAccessService telegramAccess,
+      TelegramAdminService telegramAdmin) {
     this.inbox = inbox;
     this.identities = identities;
     this.routes = routes;
@@ -61,6 +65,8 @@ public class MessagingInboxWorker {
     this.voice = voice;
     this.status = status;
     this.memory = memory;
+    this.telegramAccess = telegramAccess;
+    this.telegramAdmin = telegramAdmin;
   }
 
   @Scheduled(fixedDelayString = "${food-journal.inbox-delay-ms:500}")
@@ -92,6 +98,14 @@ public class MessagingInboxWorker {
     }
     String text = message.text() == null ? "" : message.text().trim();
     String caption = message.caption() == null ? "" : message.caption().trim();
+    if ("telegram".equals(message.provider())) {
+      Optional<String> adminResponse = telegramAdmin.handle(
+          text, Long.parseLong(message.userId()), message.userId().equals(message.conversationId()));
+      if (adminResponse.isPresent()) {
+        reply(message, adminResponse.get());
+        return;
+      }
+    }
     if ("telegram".equals(message.provider()) && "/link".equalsIgnoreCase(text)) {
       FoodUser user = telegramUser(message);
       reply(message, "Your Mattermost link code is " + links.issue(user) + ". Send `link CODE` in a direct message to the Mattermost bot within 10 minutes.");
@@ -149,7 +163,7 @@ public class MessagingInboxWorker {
 
   private boolean allowed(InboundMessage message) {
     return switch (message.provider()) {
-      case "telegram" -> properties.telegram().enabled() && properties.telegram().allowedUserIds().contains(message.userId());
+      case "telegram" -> properties.telegram().enabled() && telegramAccess.allowed(Long.parseLong(message.userId()));
       case "mattermost" -> properties.mattermost().enabled() && properties.mattermost().allowedUserIds().contains(message.userId());
       case "terminal" -> true;
       default -> false;

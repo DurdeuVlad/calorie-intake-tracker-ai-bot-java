@@ -5,7 +5,7 @@
 ## Completed Milestones (Production Release)
 
 1. [x] **Bootstrap & Governance**: Docker architecture, Spring Boot 3.5 setup, security scanning, and configuration template.
-2. [x] **Database Schema & Migrations**: PostgreSQL 16 schema evolution via Flyway migrations (`V1`–`V17`).
+2. [x] **Database Schema & Migrations**: PostgreSQL 16 schema evolution via Flyway migrations (`V1`–`V18`).
 3. [x] **Multi-Frontend Ingestion**: Telegram HTTPS Webhook API with secret header verification and Mattermost WebSocket client over Tailscale.
 4. [x] **User Isolation & Idempotency**: Atomic update claiming (`processed_updates`), strict user-level authorization, and outbox messaging worker (`messaging_outbound_messages`).
 5. [x] **Onboarding & Pinned Status**: Timezone-aware user settings, daily calorie targets, and dynamic pinned daily status updates.

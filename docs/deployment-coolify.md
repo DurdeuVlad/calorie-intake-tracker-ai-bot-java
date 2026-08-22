@@ -30,7 +30,10 @@ DATABASE_PASSWORD=your-secure-db-password
 
 TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
 TELEGRAM_WEBHOOK_SECRET=your-random-webhook-secret
-ALLOWED_TELEGRAM_USER_IDS=123456789,987654321
+# New deployment: configure only the initial administrator.
+ADMIN_TELEGRAM_USER_IDS=123456789
+# Optional first-rollout migration only; omit on a new installation.
+ALLOWED_TELEGRAM_USER_IDS=
 
 OPENAI_API_KEY=sk-proj-...
 OPENAI_MODEL=gpt-5.6-luna
@@ -49,7 +52,7 @@ Configure Coolify liveness/readiness health probes to point to the Spring Actuat
 - Click **Deploy** in Coolify.
 - Monitor application logs to confirm Flyway migration execution:
   ```text
-  Successfully applied 17 migrations to schema "public"
+  Successfully applied 18 migrations to schema "public"
   ```
 - Confirm readiness check passes (`UP`).
 
@@ -85,3 +88,4 @@ In the repository's GitHub webhook settings, set this URL, content type `applica
 
 - **Stateless App Container**: The application container is non-root and read-only with a temporary `/tmp` mount. All persistent state lives in PostgreSQL.
 - **Upgrades**: Pushing updates to `master` triggers zero-downtime redeployments in Coolify. Flyway executes new migrations automatically upon startup.
+- **Telegram access**: Keep `ADMIN_TELEGRAM_USER_IDS` configured. Add and remove regular users in a private Telegram chat with the bot; do not use group chats for administration.

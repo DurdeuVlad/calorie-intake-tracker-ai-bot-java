@@ -8,7 +8,7 @@ This document defines the automated CI release gate and manual pre-production ve
 
 The `master` build must pass all automated verification checks prior to release:
 
-- **Maven Test Suite**: Unit tests, PostgreSQL / Flyway integration tests (`V1`–`V17`), and Webhook-to-Outbox end-to-end integration tests pass cleanly (`./mvnw clean verify`).
+- **Maven Test Suite**: Unit tests, PostgreSQL / Flyway integration tests (`V1`–`V18`), and Webhook-to-Outbox end-to-end integration tests pass cleanly (`./mvnw clean verify`).
 - **Container Build Safety**: Multi-stage Docker build completes without warnings (`docker build .`).
 - **Secret & Governance Scan**: Zero committed `.env` files, API tokens, Telegram secrets, raw media, or live database dumps.
 - **SSRF Validation Test**: `BrowserlessClient` unit tests prove internal IP blocking (`127.0.0.1`, `10.0.0.0/8`, `192.168.0.0/16`, cloud metadata IPs).
@@ -41,4 +41,3 @@ Run this matrix prior to updating a live production instance:
 **STATUS: READY FOR PRODUCTION**
 
 Automated verification passes cleanly in CI, and all manual pre-production gates have been verified against PostgreSQL 16, OpenAI (`gpt-5.6-luna` / `gpt-4o-mini-transcribe`), Telegram Webhooks, and Mattermost WebSockets.
-

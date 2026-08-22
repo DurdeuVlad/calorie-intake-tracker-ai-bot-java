@@ -23,8 +23,9 @@ public class TerminalConversation {
 
   public TerminalConversation(MessagingIngressService ingress, MessagingInboxWorker inbox, MessagingDispatcher outbox, TerminalFrontend frontend, TerminalTraceCollector traces, TerminalProperties terminal, BotProperties bot) {
     this.ingress=ingress; this.inbox=inbox; this.outbox=outbox; this.frontend=frontend; this.traces=traces; this.terminal=terminal;
-    Set<Long> allowed=bot.allowedTelegramUserIds();
-    if (!allowed.contains(terminal.userId())) throw new IllegalStateException("food-journal.terminal.user-id must be present in ALLOWED_TELEGRAM_USER_IDS");
+    Set<Long> allowed=new java.util.HashSet<>(bot.allowedTelegramUserIds());
+    allowed.addAll(bot.adminTelegramUserIds());
+    if (!allowed.contains(terminal.userId())) throw new IllegalStateException("food-journal.terminal.user-id must be present in ADMIN_TELEGRAM_USER_IDS or legacy ALLOWED_TELEGRAM_USER_IDS");
   }
 
   public Result send(String text) throws InterruptedException {

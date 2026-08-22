@@ -65,7 +65,7 @@ reviewed and presented independently.
 
 ## Architecture Stack
 
-- **Core**: Java 21, Spring Boot 3.5, PostgreSQL 16+, Flyway Migrations (V1–V17)
+- **Core**: Java 21, Spring Boot 3.5, PostgreSQL 16+, Flyway Migrations (V1–V18)
 - **AI & Vision**: OpenAI Chat Completions (`gpt-5.6-luna`), OpenAI Audio (`gpt-4o-mini-transcribe`), Vision/Media Extraction
 - **Integrations**: Open Food Facts API, SearxNG (JSON search API), Browserless (headless chrome fetching)
 - **Frontends**: Telegram Bot Webhook API, Mattermost Client WebSocket Engine, Interactive CLI Terminal
@@ -87,7 +87,8 @@ Key required variables:
 - `DATABASE_PASSWORD`: Strong password for PostgreSQL.
 - `TELEGRAM_BOT_TOKEN`: Token from [@BotFather](https://t.me/BotFather).
 - `TELEGRAM_WEBHOOK_SECRET`: High-entropy random secret header for webhook verification.
-- `ALLOWED_TELEGRAM_USER_IDS`: Comma-separated list of authorized numeric Telegram user IDs.
+- `ADMIN_TELEGRAM_USER_IDS`: Comma-separated bootstrap administrator IDs. A new deployment needs only this value; admins manage regular access privately with `/adduser ID` and `/removeuser ID`.
+- `ALLOWED_TELEGRAM_USER_IDS`: Optional legacy migration list. Existing IDs are seeded into PostgreSQL once and can then be managed by administrators.
 - `OPENAI_API_KEY`: OpenAI secret API key.
 
 ### 2. Run with Docker Compose
@@ -125,7 +126,7 @@ Type natural language meals directly into the CLI console. Use `:help`, `:trace 
 - [Product & Use Cases](docs/product.md): Vision, user pain points, input modes, and core workflows.
 - [Architecture](docs/architecture.md): System components, data flow, tool execution, security, and outbox delivery.
 - [Configuration Reference](docs/configuration.md): Complete guide to all application properties and environment variables.
-- [Data Model](docs/data-model.md): Detailed schema description for database tables (Flyway V1–V17).
+- [Data Model](docs/data-model.md): Detailed schema description for database tables (Flyway V1–V18).
 - [Requirements & Acceptance Criteria](docs/requirements.md): Business rules, transaction safety, and acceptance gates.
 - [Local Development Guide](docs/local-development.md): Workspace setup, terminal mode, prompt evals, and testing.
 - [Mattermost & Tailscale Setup](docs/mattermost-tailscale.md): Private frontend installation, Tailscale Serve, and account linking.
@@ -142,7 +143,7 @@ Type natural language meals directly into the CLI console. Use `:help`, `:trace 
 
 ## Security & Privacy
 
-- **Allowlist Enforcement**: Non-allowlisted user IDs are rejected at the edge before any processing.
+- **Persistent Access Control**: Bootstrap administrators are reasserted from configuration; regular Telegram access is stored in PostgreSQL and managed only through private admin commands.
 - **Zero Media Storage**: Images and audio are processed transiently in-memory/tmpfs and never stored on disk or database.
 - **SSRF Protection**: Web scraping via Browserless validates target hostnames and blocks internal/private IP subnets.
 - See [SECURITY.md](SECURITY.md) for vulnerability reporting guidelines.

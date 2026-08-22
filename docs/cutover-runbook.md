@@ -11,7 +11,7 @@ Before registering the live webhook or enabling user traffic, ensure all prerequ
 - [x] Protected `master` commit passed all automated Maven and Docker CI checks.
 - [x] PostgreSQL 16 database provisioned with persistent storage volume and daily backup schedule configured.
 - [x] High-entropy `TELEGRAM_WEBHOOK_SECRET` generated.
-- [x] Numeric Telegram user IDs configured in `ALLOWED_TELEGRAM_USER_IDS`.
+- [x] Initial administrator ID configured in `ADMIN_TELEGRAM_USER_IDS` (and legacy allowlist retained only for first-rollout migration if needed).
 - [x] Valid `OPENAI_API_KEY` supplied.
 - [x] Public HTTPS endpoint (Coolify, Caddy, Traefik, or Cloudflare Tunnel) configured to forward `/telegram/webhook` to app port `8080`.
 
@@ -23,7 +23,7 @@ Before registering the live webhook or enabling user traffic, ensure all prerequ
 1. Deploy PostgreSQL and the application container (`app`).
 2. Verify Flyway migration logs:
    ```text
-   Successfully applied 17 migrations to schema "public"
+   Successfully applied 18 migrations to schema "public"
    ```
 3. Verify Actuator readiness probe returns HTTP 200 OK:
    ```bash
@@ -48,7 +48,8 @@ Confirm Telegram response:
 ```
 
 ### Step 3: Verify User Onboarding & Integration
-1. Send `/start` from an allowlisted Telegram account. Set timezone (e.g. `Europe/Bucharest`) and daily calorie goal (e.g. `2000`).
+1. Send `/start` from the bootstrap administrator account. Set timezone (e.g. `Europe/Bucharest`) and daily calorie goal (e.g. `2000`).
+2. In the private chat only, use `/adduser NUMERIC_ID` to grant a regular user. Confirm the user can journal independently; use `/removeuser NUMERIC_ID` to revoke if required.
 2. Log a natural language test meal (e.g., `"2 eggs and coffee"`).
 3. Send `/today` to verify entry persistence and pinned daily status message updates.
 4. Verify `/undo` reverts the test entry cleanly.
@@ -65,4 +66,3 @@ If an operational anomaly occurs post-cutover:
    ```
 2. **Preserve PostgreSQL Volume**: Do **NOT** drop PostgreSQL database volumes or delete Flyway migration history during incident handling.
 3. **Inspect Outbox & Logs**: Query `processed_updates`, `messaging_outbound_messages`, and application logs to diagnose issues.
-

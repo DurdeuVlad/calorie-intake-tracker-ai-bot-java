@@ -11,6 +11,7 @@ public record BotProperties(
     String telegramToken,
     String webhookSecret,
     Set<Long> allowedTelegramUserIds,
+    Set<Long> adminTelegramUserIds,
     String defaultTimezone,
     String openaiApiKey,
     String openaiModel,
@@ -24,6 +25,7 @@ public record BotProperties(
     telegramToken = telegramToken == null ? "" : telegramToken;
     webhookSecret = webhookSecret == null ? "" : webhookSecret;
     allowedTelegramUserIds = allowedTelegramUserIds == null ? Set.of() : Set.copyOf(allowedTelegramUserIds);
+    adminTelegramUserIds = adminTelegramUserIds == null ? Set.of() : Set.copyOf(adminTelegramUserIds);
     defaultTimezone = defaultTimezone == null ? "Europe/Bucharest" : defaultTimezone;
     openaiModel = openaiModel == null ? "gpt-5.6-luna" : openaiModel;
     agentMaxToolCalls = agentMaxToolCalls <= 0 ? 10 : Math.min(agentMaxToolCalls, 10);
@@ -37,7 +39,7 @@ public record BotProperties(
 
   public BotProperties(String telegramToken, String webhookSecret, Set<Long> allowedTelegramUserIds,
       String defaultTimezone, String openaiApiKey, String openaiModel) {
-    this(telegramToken, webhookSecret, allowedTelegramUserIds, defaultTimezone, openaiApiKey,
+    this(telegramToken, webhookSecret, allowedTelegramUserIds, Set.of(), defaultTimezone, openaiApiKey,
         openaiModel, 10, "gpt-4o-mini-transcribe", "https://world.openfoodfacts.org/api/v2", "", "", "");
   }
 }

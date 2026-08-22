@@ -29,7 +29,7 @@ flowchart TD
     end
 
     subgraph Storage & Persistence
-        DB[(PostgreSQL + Flyway V1-V17)]
+        DB[(PostgreSQL + Flyway V1-V18)]
     end
 
     T -->|Inbound Webhook| I
@@ -57,7 +57,7 @@ flowchart TD
 ## Technical Design & Boundaries
 
 ### 1. Multi-Frontend Ingestion
-- **Telegram Frontend**: Receives HTTPS webhooks, verifies `X-Telegram-Bot-Api-Secret-Token`, checks numeric user ID against `ALLOWED_TELEGRAM_USER_IDS`, and records idempotency in `processed_updates`.
+- **Telegram Frontend**: Receives HTTPS webhooks, verifies `X-Telegram-Bot-Api-Secret-Token`, checks numeric user IDs against persistent `telegram_access_grants` seeded by `ADMIN_TELEGRAM_USER_IDS`, and records idempotency in `processed_updates`.
 - **Mattermost Frontend**: Connects over WebSocket to self-hosted Mattermost instances (typically exposed privately over Tailscale Serve). Manages direct message sessions and account linking (`/link <code>`).
 - **Terminal CLI**: Standalone interactive local development profile that executes real domain flows without messaging platform dependencies.
 
@@ -84,4 +84,3 @@ flowchart TD
 ### 6. Idempotency & Outbox Pattern
 - Outbound responses and pinned daily status updates are committed to database outbox tables (`messaging_outbound_messages`, `messaging_daily_status`).
 - A background worker (`MessagingInboxWorker`) processes outbox items, ensuring reliable message delivery across network retries and application restarts.
-

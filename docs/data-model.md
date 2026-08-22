@@ -1,6 +1,6 @@
 # Data Model Reference
 
-The application uses PostgreSQL 16 with schema evolution managed strictly via Flyway migrations (`V1` through `V17`).
+The application uses PostgreSQL 16 with schema evolution managed strictly via Flyway migrations (`V1` through `V18`).
 
 ---
 
@@ -31,6 +31,7 @@ The application uses PostgreSQL 16 with schema evolution managed strictly via Fl
 | `messaging_routes` | V14 | Maps user messaging routing preferences to active frontend adapters. |
 | `messaging_daily_status` | V15 | Outbox ledger for sending and updating daily status summary messages across frontends. |
 | `pinned_status` | V3 | Stores the current pinned Telegram daily status message reference (`user_id` FK, `chat_id`, `message_id`). |
+| `telegram_access_grants` | V18 | Persistent Telegram access ledger keyed by numeric Telegram ID. Holds active/admin state and grant provenance; V18 preserves existing `food_users` as regular active users. |
 
 ---
 
@@ -51,4 +52,3 @@ The application uses PostgreSQL 16 with schema evolution managed strictly via Fl
 1. **Ownership Isolation**: Foreign key constraints enforce `user_id` ownership on all food entries, settings, change sets, and messaging identities.
 2. **Timezone Awareness**: Instants are stored as `TIMESTAMP WITH TIME ZONE` (UTC). User queries group entries according to the user's configured IANA timezone (`user_settings.timezone`).
 3. **No Media Retention**: Original images, audio files, and documents are never stored in PostgreSQL tables.
-

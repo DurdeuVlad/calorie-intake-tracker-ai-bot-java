@@ -10,7 +10,7 @@
 
 2. **Strict User Ownership & Access Control**:
    - Every database query and mutation is strictly filtered by the caller's verified `user_id`.
-   - Messages from users not explicitly listed in `ALLOWED_TELEGRAM_USER_IDS` or `ALLOWED_MATTERMOST_USER_IDS` are rejected immediately without disclosing system state.
+   - Telegram access is checked against persistent grants seeded from `ADMIN_TELEGRAM_USER_IDS`, legacy configuration, and existing users; Mattermost senders remain checked against `ALLOWED_MATTERMOST_USER_IDS`. Rejected senders receive no system-state disclosure.
 
 3. **Transaction Safety & Atomicity**:
    - Inbound messages may trigger multiple food entry mutations. Each requested action is validated independently.
@@ -49,11 +49,10 @@
 
 | Domain | Acceptance Criteria | Verification Method |
 | --- | --- | --- |
-| **Authentication** | Senders not on allowlist are rejected cleanly without side effects. | Integration test & manual check. |
+| **Authentication** | Telegram administrators can privately grant/revoke regular users; admins remain journal users and cannot remove an administrator. Unauthorized senders are rejected without side effects. | Unit, migration, and manual check. |
 | **Idempotency** | Sending the same update twice creates exactly one food entry and one reply message. | `processed_updates` ledger assertions. |
 | **Natural Language** | Text, voice, photos, and document inputs extract food items, quantities, and calories. | Automated eval suite & integration tests. |
 | **10-Minute Undo** | `/undo` within 10 minutes reverts the exact previous message mutations; `/undo` after 10 minutes fails gracefully. | ChangeSet expiration integration tests. |
 | **Nutrition Lookup** | Open Food Facts and SearxNG return valid nutrition data; failure falls back to AI estimation with `AI_ESTIMATE` provenance. | Mocked tool boundary tests. |
 | **Web Fetching & SSRF** | `fetch_web_page` rejects internal IP ranges (`127.0.0.1`, `10.0.0.0/8`, `192.168.0.0/16`, cloud metadata endpoints). | Unit tests for `BrowserlessClient`. |
 | **Scheduled Reports** | Morning and evening reports fire once per day per user timezone; retries across restarts do not send duplicate reports. | `report_deliveries` unique index verification. |
-

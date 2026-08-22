@@ -22,7 +22,8 @@ All application settings are declared via environment variables or standard Spri
 | --- | --- | --- | --- |
 | `TELEGRAM_BOT_TOKEN` | Yes (if Telegram enabled) | *(none)* | Bot token provided by [@BotFather](https://t.me/BotFather). |
 | `TELEGRAM_WEBHOOK_SECRET` | Yes (if Telegram enabled) | *(none)* | High-entropy string expected in `X-Telegram-Bot-Api-Secret-Token` header. |
-| `ALLOWED_TELEGRAM_USER_IDS` | Yes (if Telegram enabled) | *(empty)* | Comma-separated list of allowed numeric Telegram user IDs. |
+| `ADMIN_TELEGRAM_USER_IDS` | Yes (if Telegram enabled) | *(empty)* | Comma-separated bootstrap administrator IDs. Administrators retain ordinary journal access and can manage regular users in private chat. |
+| `ALLOWED_TELEGRAM_USER_IDS` | No (migration only) | *(empty)* | Legacy comma-separated list. Existing values are seeded into persistent grants without reactivating users later revoked by an administrator. |
 | `TELEGRAM_FRONTEND_ENABLED` | No | `true` | Set `false` to disable the Telegram webhook adapter. |
 
 ---
@@ -80,7 +81,7 @@ All application settings are declared via environment variables or standard Spri
 | `TERMINAL_DATABASE_URL` | No | `jdbc:postgresql://localhost:5432/foodjournal_dev` | Isolated dev database URL for terminal mode. |
 | `TERMINAL_DATABASE_USERNAME` | No | `foodjournal` | Dev database username. |
 | `TERMINAL_DATABASE_PASSWORD` | No | `change-me` | Dev database password. |
-| `TERMINAL_TELEGRAM_USER_ID` | No | `123456789` | Simulated user ID (must be present in `ALLOWED_TELEGRAM_USER_IDS`). |
+| `TERMINAL_TELEGRAM_USER_ID` | No | `123456789` | Simulated user ID (must be present in `ADMIN_TELEGRAM_USER_IDS` or legacy `ALLOWED_TELEGRAM_USER_IDS`). |
 | `TERMINAL_DISPLAY_NAME` | No | `Local developer` | Display name for interactive terminal session. |
 | `TERMINAL_EVAL_REPEATS` | No | `3` | Iterations per evaluation scenario when running automated prompt evals. |
 | `TERMINAL_EVAL_SCENARIO` | No | *(empty)* | Name of single scenario to run (e.g. `single-meal-simple`). |
@@ -95,3 +96,6 @@ All application settings are declared via environment variables or standard Spri
 2. **Production Secret Injection**: In production (Docker Compose or Coolify), populate runtime variables strictly through container environment settings or secret vaults.
 3. **Log Protection**: Application logging filters credentials, HTTP headers, raw prompt text, and original user messages.
 
+## Telegram administrator-managed access
+
+At startup, `ADMIN_TELEGRAM_USER_IDS` is applied to the `telegram_access_grants` table: each configured ID is active and an administrator. On the first rollout, the optional legacy allowlist and existing Telegram-linked journal users are preserved as active regular users. Authorization thereafter is database-backed, so an administrator can privately send `/adduser NUMERIC_ID` or `/removeuser NUMERIC_ID` without changing Coolify settings. These commands never operate in group chats, never include target IDs in their replies, and cannot revoke any administrator.
