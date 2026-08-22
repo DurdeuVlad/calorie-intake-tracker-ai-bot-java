@@ -36,8 +36,14 @@ Run this matrix prior to updating a live production instance:
 
 ---
 
-## 3. Production Release Status
+## 3. Evidence and release decision
 
-**STATUS: READY FOR PRODUCTION**
+The matrix above is a release gate, not a permanent claim that every deployment
+has been exercised. Record the actual CI run, commit, image digest, database
+version, and manual test evidence in the release notes before promotion. A release
+is ready only when the automated workflow is green and the operator has completed
+the applicable Telegram, database, webhook, scheduler, and Mattermost checks.
 
-Automated verification passes cleanly in CI, and all manual pre-production gates have been verified against PostgreSQL 16, OpenAI (`gpt-5.6-luna` / `gpt-4o-mini-transcribe`), Telegram Webhooks, and Mattermost WebSockets.
+The repository does not claim that production acceptance has occurred merely
+because the source tree or documentation is complete. Environment-dependent checks
+must be repeated for each deployment.

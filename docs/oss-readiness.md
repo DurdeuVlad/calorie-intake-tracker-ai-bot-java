@@ -28,7 +28,10 @@ The sister repository contains the complete Java source tree, Maven project, tes
 
 For `master`, use a ruleset or branch protection with: pull requests required; at least one approving review; dismiss stale approvals; required CODEOWNERS review; required CI checks (`build-test` and `security-scan` when applicable); conversation resolution; force-push and deletion disabled; linear history preferred; and administrators included where practical. Require signed commits only if the maintainer workflow can consistently produce them.
 
-Enable private vulnerability reporting, Dependabot security updates, secret scanning and push protection where available, and Actions restricted to reviewed or pinned actions. Keep the repository private until the security contact, license, owner, and history have been reviewed.
+Enable private vulnerability reporting, Dependabot security updates, secret scanning
+and push protection where available, and Actions restricted to reviewed or pinned
+actions. Because this repository is public, verify those settings before inviting
+outside contributions and keep the security contact and owner information current.
 
 ## Remaining recommended hardening
 

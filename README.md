@@ -126,6 +126,7 @@ Type natural language meals directly into the CLI console. Use `:help`, `:trace 
 - [Product & Use Cases](docs/product.md): Vision, user pain points, input modes, and core workflows.
 - [Architecture](docs/architecture.md): System components, data flow, tool execution, security, and outbox delivery.
 - [Configuration Reference](docs/configuration.md): Complete guide to all application properties and environment variables.
+- [Telegram Administrator Access](docs/admin-access.md): Bootstrap access, runtime user management, and safe rollout checks.
 - [Data Model](docs/data-model.md): Detailed schema description for database tables (Flyway V1–V18).
 - [Requirements & Acceptance Criteria](docs/requirements.md): Business rules, transaction safety, and acceptance gates.
 - [Local Development Guide](docs/local-development.md): Workspace setup, terminal mode, prompt evals, and testing.
